@@ -228,6 +228,7 @@ form select {
     border-radius: 4px;
     background-color: #fff;
     color: #000;
+    font-size: 16px; /* 폰트 크기를 16px로 설정 */
 }
 
 form textarea {
@@ -557,6 +558,7 @@ input:checked+.slider:before {
         width: calc(100% - 50px);
         /* input의 넓이를 버튼과 일치하게 조정 */
         height: 40px;
+        font-size: 16px; /* 검색 입력 필드의 폰트 크기를 16px로 설정 */
     }
 
     .main-content {
