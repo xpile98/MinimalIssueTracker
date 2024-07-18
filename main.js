@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function updateProjectList() {
         const currentProjects = issues.map(issue => issue.project);
-        projectList.innerHTML = '<option value="">프로젝트 선택</option>';
+        projectList.innerHTML = '<option value="">선택</option>';
         projects.filter(project => currentProjects.includes(project))
             .forEach(project => {
                 const option = document.createElement('option');
