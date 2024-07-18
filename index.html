@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet", href="style.css" />
+  <link rel="stylesheet" , href="style.css" />
   <title>MyTrack - Enhanced Issue Tracking</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://apis.google.com/js/api.js"></script>
@@ -20,9 +21,6 @@
     </a>
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="이슈 검색...">
-      <button class="search-button">
-        <i class="material-icons">search</i>
-      </button>
     </div>
     <div class="login-container">
       <div id="gSignInWrapper">
@@ -74,26 +72,28 @@
       <h2>이슈 추가/업데이트</h2>
       <form id="issueForm">
         <input type="hidden" id="issueId">
-        
+
         <label for="project">프로젝트 이름:</label>
-        <div class="project-container" style="display: flex; align-items: center;">
+        <div style="display: flex; align-items: center;">
           <input type="text" id="project" name="project" required style="flex: 1;">
           <select id="projectList" name="projectList" style="flex: 0; margin-left: 10px;">
             <option value="">프로젝트 선택</option>
           </select>
         </div>
-        
+
         <label for="issue">이슈:</label>
-        <textarea id="issue" name="issue" required style="width: calc(100% - 20px); height: 20px; resize: none;"></textarea>
-  
+        <textarea id="issue" name="issue" required
+          style="width: calc(100% - 20px); height: 20px; resize: none;"></textarea>
+
         <label for="method">방법:</label>
         <textarea id="method" name="method" style="width: calc(100% - 20px); height: 160px; resize: none;"></textarea>
-  
+
         <div class="date-container">
           <label for="date">날짜:</label>
-          <input type="text" id="date" name="date" class="flatpickr" required style="width: calc(100% - 20px); height: 20px">
+          <input type="text" id="date" name="date" class="flatpickr" required
+            style="width: calc(100% - 20px); height: 20px">
         </div>
-  
+
         <div class="status-container">
           <label for="status">상태:</label>
           <label class="toggle-switch">
@@ -102,7 +102,7 @@
           </label>
           <em id="statusText">미해결</em>
         </div>
-  
+
         <div class="button-container">
           <input type="delete" value="삭제" class="delete-button">
           <input type="submit" value="저장" class="save-button">
@@ -114,32 +114,32 @@
   <!-- 설정 창 -->
   <div id="settingsModal" class="modal">
     <div class="modal-content">
-        <div class="settings-container">
-            <div class="settings-menu">
-                <h3>설정 메뉴</h3>
-                <ul>
-                    <li id="backupMenu">파일 백업</li>
-                    <!-- 추가할 메뉴
+      <div class="settings-container">
+        <div class="settings-menu">
+          <h3>설정 메뉴</h3>
+          <ul>
+            <li id="backupMenu">파일 백업</li>
+            <!-- 추가할 메뉴
                     <li>메뉴2</li>
                     <li>메뉴3</li>
                     <li>메뉴4</li>
                     <li>메뉴5</li>
                     -->
-                </ul>
-            </div>
-            <div class="settings-content">
-                <div id="backupContent" class="settings-section">
-                    <h3>파일 백업</h3>
-                    <button id="rawFileDownload" class="settings-button">Raw File Download</button>
-                    <button id="rawFileUpload" class="settings-button">Raw File Upload</button>
-                </div>
-                <!-- 다른 섹션들도 여기에 추가 -->
-            </div>
+          </ul>
         </div>
-        <span class="close-settings">&times;</span>
+        <div class="settings-content">
+          <div id="backupContent" class="settings-section">
+            <h3>파일 백업</h3>
+            <button id="rawFileDownload" class="settings-button">Raw File Download</button>
+            <button id="rawFileUpload" class="settings-button">Raw File Upload</button>
+          </div>
+          <!-- 다른 섹션들도 여기에 추가 -->
+        </div>
+      </div>
+      <span class="close-settings">&times;</span>
     </div>
   </div>
-  
+
   <!-- Custom Confirm Modal -->
   <div id="confirmModal" class="modal">
     <div class="modal-content">
@@ -158,12 +158,9 @@
     <button class="menu-button" id="menuButton">
       <i class="material-icons">menu</i>
     </button>
-    <button class="add-button" id="addButton">
-      <i class="material-icons">add</i>
-    </button>
   </footer>
 
   <script src="main.js"></script>
-  <!--TEST-->
 </body>
+
 </html>
