@@ -298,6 +298,7 @@ form textarea {
     align-content: center;
     justify-content: center;
     text-align: center;
+    display: inline-block; /* 텍스트 입력이 불가능하도록 display를 inline-block으로 설정 */
 }
 
 .delete-button {
