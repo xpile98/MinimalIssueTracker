@@ -321,7 +321,7 @@ form textarea {
 
 
 input:checked + .slider {
-    background-color: #ff0000;
+    background-color: #00ff00;
 }
 
 input:checked + .slider:before {
