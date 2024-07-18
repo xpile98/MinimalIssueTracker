@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         updateIssueCounts();
     }
 
-    const menuButton = document.getElementById('menuButton');
     const searchContainer = document.querySelector('.search-container');
     const sidebar = document.querySelector('.sidebar');
     const mainContent = document.querySelector('.main-content');
@@ -90,11 +89,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             sidebar.style.display = 'none';
         }
     }
-
-    menuButton.addEventListener('click', (event) => {
-        event.stopPropagation();
-        toggleSidebar();
-    });
 
     addButton.addEventListener('click', (event) => {
         event.stopPropagation();
