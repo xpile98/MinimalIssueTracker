@@ -30,7 +30,6 @@
       </div>
       <div id="name"></div>
     </div>
-    
   </header>
 
   <div class="container">
@@ -77,7 +76,7 @@
         <input type="hidden" id="issueId">
         
         <label for="project">프로젝트 이름:</label>
-        <div style="display: flex; align-items: center;">
+        <div class="project-container" style="display: flex; align-items: center;">
           <input type="text" id="project" name="project" required style="flex: 1;">
           <select id="projectList" name="projectList" style="flex: 0; margin-left: 10px;">
             <option value="">프로젝트 선택</option>
@@ -153,6 +152,16 @@
     </div>
   </div>
 
+
+  <!---->
+  <footer>
+    <button class="menu-button" id="menuButton">
+      <i class="material-icons">menu</i>
+    </button>
+    <button class="add-button" id="addButton">
+      <i class="material-icons">add</i>
+    </button>
+  </footer>
 
   <script src="main.js"></script>
   <!--TEST-->

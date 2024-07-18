@@ -71,6 +71,47 @@ document.addEventListener('DOMContentLoaded', (event) => {
         issueGrid.appendChild(issueCard);
     });
     updateIssueCounts();
+    
+    const menuButton = document.getElementById('menuButton');
+    const addButton = document.getElementById('addButton');
+    const searchButton = document.getElementById('searchFooterButton');
+    const searchContainer = document.querySelector('.search-container');
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+
+    function toggleSidebar() {
+        if (sidebar.style.display === 'block') {
+        sidebar.style.display = 'none';
+        } else {
+        sidebar.style.display = 'block';
+        }
+    }
+
+    function hideSidebar() {
+        if (sidebar.style.display === 'block') {
+        sidebar.style.display = 'none';
+        }
+    }
+
+    menuButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        toggleSidebar();
+    });
+
+    addButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        openModal();
+    });
+
+    searchButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        searchContainer.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.addEventListener('click', hideSidebar);
+    sidebar.addEventListener('click', (event) => {
+        event.stopPropagation();
+    });
 }
 
 function getHighlightedSnippet(text, searchTerm, snippetLength) {

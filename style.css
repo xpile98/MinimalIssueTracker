@@ -497,3 +497,98 @@ input:checked + .slider:before {
 .settings-button:hover {
     background-color: #666;
 }
+
+/* 모바일 스타일 */
+@media (max-width: 1024px) {
+    
+
+    #method {
+        height: 50px !important;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        display: none;
+        padding: 110px 0 0;
+    }
+
+    header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: #1f1f1f;
+        padding: 8px 16px;
+        height: auto;
+        box-shadow: 0 1px 0 rgba(0,0,0,.1);
+    }
+
+    .search-container {
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    #searchInput {
+        width: calc(100% - 50px); /* input의 넓이를 버튼과 일치하게 조정 */
+        height: 40px;
+    }
+
+    .search-button {
+        width: 50px; /* 검색 버튼의 너비 조정 */
+        height: 40px;
+    }
+
+    .main-content {
+        margin: 0;
+        padding: 116px 16px 56px; /* 상단 패딩을 136px로 조정하여 헤더와 검색창의 높이를 반영 */
+    }
+
+    .issue-grid {
+        display: block;
+    }
+
+    .issue-card {
+        margin-bottom: 16px;
+    }
+
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        background-color: #1f1f1f;
+        height: 56px;
+        box-shadow: 0 -1px 0 rgba(0,0,0,.1);
+    }
+
+    .menu-button, .add-button {
+        flex: 1;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #ffffff;
+        background-color: #424242;
+        border: none;
+        cursor: pointer;
+        flex: 1;
+    }
+
+    .menu-button i, .add-button i {
+        font-size: 24px;
+    }
+
+    .add-button {
+        border-radius: 0; /* 추가 버튼의 모서리를 둥글지 않게 설정 */
+    }
+
+    .menu-button {
+        border-right: 1px solid #333; /* 버튼 사이 구분선 추가 */
+    }
+}
