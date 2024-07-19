@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         console.log("로그인 시도: ", email);
-        auth.signInWithEmailAndPassword(email, password)
+        signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log("로그인 성공: ", userCredential.user);
                 document.getElementById('loginForm').style.display = 'none';
@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     document.getElementById('logoutButton').addEventListener('click', () => {
-        auth.signOut().then(() => {
+        signOut(auth).then(() => {
             console.log("로그아웃 성공");
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('logoutButton').style.display = 'none';
