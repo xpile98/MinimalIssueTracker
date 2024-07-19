@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         } else {
             issues.push(newIssue);
+            saveData();
         }
 
         localStorage.setItem('issues', JSON.stringify(issues));
