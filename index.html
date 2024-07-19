@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 </head>
 
 <body>
@@ -22,11 +23,14 @@
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="이슈 검색...">
     </div>
+    
     <div class="login-container">
-      <div id="gSignInWrapper">
-        <div id="my-signin2"></div>
-      </div>
-      <div id="name"></div>
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="이메일" required>
+        <input type="password" id="password" placeholder="비밀번호" required>
+        <button type="submit">로그인</button>
+      </form>
+      <button id="logoutButton" style="display: none;">로그아웃</button>
     </div>
   </header>
 
@@ -151,8 +155,10 @@
       </div>
     </div>
   </div>
+  
 
-  <script src="main.js"></script>
+  <script type="module" src="main.js"></script>
+  
 </body>
 
 </html>

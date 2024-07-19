@@ -1,4 +1,11 @@
+
+import { auth, db } from './firebaseConfig.js';
+import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+import { collection, addDoc, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+
+
 document.addEventListener('DOMContentLoaded', (event) => {
+
     flatpickr(".flatpickr", {
         enableTime: false,
         dateFormat: "Y-m-d",
@@ -322,4 +329,68 @@ document.addEventListener('DOMContentLoaded', (event) => {
         };
         input.click();
     });
+
+    
+    // 로그인 및 로그아웃 이벤트 리스너
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        console.log("로그인 시도: ", email);
+        auth.signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+                console.log("로그인 성공: ", userCredential.user);
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('logoutButton').style.display = 'block';
+                loadData(userCredential.user);
+            })
+            .catch((error) => {
+                console.error('로그인 오류:', error);
+            });
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', () => {
+        auth.signOut().then(() => {
+            console.log("로그아웃 성공");
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('logoutButton').style.display = 'none';
+            clearData();
+        });
+    });
+
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            console.log("사용자 로그인 상태: ", user);
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('logoutButton').style.display = 'block';
+            loadData(user);
+        } else {
+            console.log("사용자 로그아웃 상태");
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('logoutButton').style.display = 'none';
+        }
+    });
+
+    function loadData(user) {
+        db.collection('issues').where('userId', '==', user.uid).get().then((querySnapshot) => {
+            let issues = [];
+            querySnapshot.forEach((doc) => {
+                issues.push(doc.data());
+            });
+            renderIssues(issues);
+        });
+    }
+
+    function saveData(issue) {
+        const user = auth.currentUser;
+        if (user) {
+            issue.userId = user.uid;
+            db.collection('issues').add(issue);
+        }
+    }
+
+    function clearData() {
+        renderIssues([]);
+    }
+
 });
