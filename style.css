@@ -523,7 +523,7 @@ input:checked+.slider:before {
 }
 
 /* 모바일 스타일 */
-@media (max-width: 1024px) {
+@media (max-width: 768) {
 
 
     #method {
