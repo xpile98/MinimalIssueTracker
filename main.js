@@ -158,6 +158,42 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     }
 
+    function saveIssue(issue) {
+        const user = auth.currentUser;
+        if (user) {
+            issue.userId = user.uid;
+            if (issue.id) {
+                // 업데이트
+                const issueRef = doc(db, "issues", issue.id);
+                updateDoc(issueRef, issue).then(() => {
+                    console.log("이슈 업데이트 성공");
+                }).catch(error => {
+                    console.error("이슈 업데이트 오류: ", error);
+                });
+            } else {
+                // 새 이슈 추가
+                addDoc(collection(db, "issues"), issue).then((docRef) => {
+                    console.log("이슈 저장 성공: ", docRef.id);
+                    issue.id = docRef.id;
+                    renderIssues();
+                }).catch(error => {
+                    console.error("이슈 저장 오류: ", error);
+                });
+            }
+        } else {
+            // 로컬 저장
+            if (issue.id) {
+                const index = issues.findIndex(i => i.id === issue.id);
+                issues[index] = issue;
+            } else {
+                issue.id = Date.now().toString();
+                issues.push(issue);
+            }
+            localStorage.setItem('issues', JSON.stringify(issues));
+            renderIssues();
+        }
+    }
+
     issueForm.addEventListener('submit', function (e) {
         e.preventDefault();
         const issueId = document.getElementById('issueId').value;
@@ -167,7 +203,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             localStorage.setItem('projects', JSON.stringify(projects));
         }
         const newIssue = {
-            id: issueId || Date.now().toString(),
+            id: issueId || null,
             project: selectedProject,
             issue: document.getElementById('issue').value,
             status: document.getElementById('status').checked ? 'solved' : 'unsolved',
@@ -175,20 +211,27 @@ document.addEventListener('DOMContentLoaded', (event) => {
             date: document.getElementById('date').value
         };
 
-        if (issueId) {
-            const issueIndex = issues.findIndex(issue => issue.id === issueId);
-            if (issueIndex !== -1) {
-                issues[issueIndex] = newIssue;
-            }
-        } else {
-            issues.push(newIssue);
-            saveData();
-        }
-
-        localStorage.setItem('issues', JSON.stringify(issues));
-        renderIssues();
+        saveIssue(newIssue);
         modal.style.display = 'none';
     });
+
+    function deleteIssue(issueId) {
+        const user = auth.currentUser;
+        if (user) {
+            const issueRef = doc(db, "issues", issueId);
+            deleteDoc(issueRef).then(() => {
+                console.log("이슈 삭제 성공");
+                issues = issues.filter(issue => issue.id !== issueId);
+                renderIssues();
+            }).catch(error => {
+                console.error("이슈 삭제 오류: ", error);
+            });
+        } else {
+            issues = issues.filter(issue => issue.id !== issueId);
+            localStorage.setItem('issues', JSON.stringify(issues));
+            renderIssues();
+        }
+    }
 
     deleteButton.addEventListener('click', function (e) {
         e.preventDefault();
@@ -198,10 +241,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     confirmYes.addEventListener('click', function () {
         const issueId = document.getElementById('issueId').value;
         if (issueId) {
-            issues = issues.filter(issue => issue.id !== issueId);
-            localStorage.setItem('issues', JSON.stringify(issues));
-            renderIssues();
-            modal.style.display = 'none';
+            deleteIssue(issueId);
         }
         confirmModal.style.display = 'none';
     });
@@ -372,22 +412,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     function loadData(user) {
-        db.collection('issues').where('userId', '==', user.uid).get().then((querySnapshot) => {
-            let issues = [];
+        const q = query(collection(db, "issues"), where("userId", "==", user.uid));
+        getDocs(q).then((querySnapshot) => {
+            let loadedIssues = [];
             querySnapshot.forEach((doc) => {
-                issues.push(doc.data());
+                loadedIssues.push({ ...doc.data(), id: doc.id });
             });
-            renderIssues(issues);
+            issues = loadedIssues;
+            renderIssues();
+        }).catch(error => {
+            console.error("데이터 로드 오류: ", error);
         });
     }
 
-    function saveData(issue) {
-        const user = auth.currentUser;
+    auth.onAuthStateChanged((user) => {
         if (user) {
-            issue.userId = user.uid;
-            db.collection('issues').add(issue);
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('logoutButton').style.display = 'block';
+            loadData(user);
+        } else {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('logoutButton').style.display = 'none';
+            issues = JSON.parse(localStorage.getItem('issues')) || [];
+            renderIssues();
         }
-    }
+    });
 
     function clearData() {
         renderIssues([]);
