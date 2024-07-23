@@ -600,7 +600,7 @@ input:checked+.slider:before {
 
 .modal-content {
     background-color: #1f1f1f;
-    margin: 15% auto;
+    margin: auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
