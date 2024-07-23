@@ -175,7 +175,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 addDoc(collection(db, "issues"), issue).then((docRef) => {
                     console.log("이슈 저장 성공: ", docRef.id);
                     issue.id = docRef.id;
-                    renderIssues();
+
+                    // DB 사용시 이슈 로드 방법 수정
+                    //renderIssues();
+                    loadData(user);
                 }).catch(error => {
                     console.error("이슈 저장 오류: ", error);
                 });
@@ -403,12 +406,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.log("사용자 로그인 상태: ", user);
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('logoutButton').style.display = 'block';
-            loadData(user);
         } else {
             console.log("사용자 로그아웃 상태");
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('logoutButton').style.display = 'none';
         }
+        loadData(user);
     });
 
     function loadData(user) {
