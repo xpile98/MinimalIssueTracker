@@ -151,10 +151,6 @@ header {
     color: #b0b0b0;
 }
 
-#issueModal .modal {
-    text-align: left;
-}
-
 .modal {
     display: none;
     position: fixed;
@@ -180,6 +176,11 @@ header {
     left: 50%;
     transform: translate(-50%, -50%); /* 중앙 정렬을 위해 transform 사용 */
     text-align: center;
+}
+
+
+#issueModal .modal {
+    text-align: left;
 }
 
 .close {
