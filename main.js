@@ -417,15 +417,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loginModal.style.display = 'none';
     });
 
+    
+    // 로그아웃 아이콘 클릭 이벤트
+    logoutIcon.addEventListener('click', () => {
+        logoutModal.style.display = 'block';
+    });
 
-    // 모달 외부 클릭 시 닫기
-    window.addEventListener('click', (event) => {
-        if (event.target == loginModal) {
-            loginModal.style.display = 'none';
-        }
-        if (event.target == logoutModal) {
-            logoutModal.style.display = 'none';
-        }
+    // 로그아웃 모달 닫기 이벤트
+    closeLogoutModal.addEventListener('click', () => {
+        logoutModal.style.display = 'none';
     });
 
     // 로그인 폼 제출 이벤트
@@ -446,16 +446,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
-    
-    // 로그아웃 아이콘 클릭 이벤트
-    logoutIcon.addEventListener('click', () => {
-        logoutModal.style.display = 'block';
-    });
-
-    // 로그아웃 모달 닫기 이벤트
-    closeLogoutModal.addEventListener('click', () => {
-        logoutModal.style.display = 'none';
-    });
 
     // 로그아웃 버튼 클릭 이벤트
     logoutButton.addEventListener('click', () => {
@@ -468,6 +458,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
+
+
+    // 모달 외부 클릭 시 닫기
+    window.addEventListener('click', (event) => {
+        if (event.target == loginModal) {
+            loginModal.style.display = 'none';
+        }
+        if (event.target == logoutModal) {
+            logoutModal.style.display = 'none';
+        }
+    });
 
     function loadData(user) {
         if (!user) {

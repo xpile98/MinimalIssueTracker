@@ -180,7 +180,7 @@ header {
 
 
 #issueModal .modal {
-    text-align: left;
+    text-align: left; !important;
 }
 
 .close {
