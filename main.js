@@ -398,13 +398,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     // 로그인 모달 요소
     const loginModal = document.getElementById('loginModal');
     const loginIcon = document.getElementById('loginIcon');
-    const closeLoginModal = document.getElementsByClassName('close')[0];
+    const closeLoginModal = document.getElementById('closeLoginModal');
     const loginForm = document.getElementById('loginForm');
 
     // 로그아웃 모달 요소
     const logoutModal = document.getElementById('logoutButtonContainer');
     const logoutIcon = document.getElementById('logoutIcon');
-    const closeLogoutModal = document.getElementsByClassName('close')[1];
+    const closeLogoutModal = document.getElementById('closeLogoutModal');
     const logoutButton = document.getElementById('logoutButton');
 
     // 로그인 아이콘 클릭 이벤트
