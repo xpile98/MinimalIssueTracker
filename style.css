@@ -583,8 +583,10 @@ input:checked+.slider:before {
     }
 }
 
-/* 로그인 모달 스타일 */
-#loginModal {
+
+
+/* 로그인 및 로그아웃 모달 스타일 */
+.modal {
     display: none;
     position: fixed;
     z-index: 4;
@@ -596,7 +598,7 @@ input:checked+.slider:before {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
-#loginModal .modal-content {
+.modal-content {
     background-color: #1f1f1f;
     margin: 15% auto;
     padding: 20px;
@@ -607,7 +609,7 @@ input:checked+.slider:before {
     text-align: center;
 }
 
-#loginModal .close {
+.close {
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -615,8 +617,8 @@ input:checked+.slider:before {
     cursor: pointer;
 }
 
-#loginModal .close:hover,
-#loginModal .close:focus {
+.close:hover,
+.close:focus {
     color: #fff;
     text-decoration: none;
     cursor: pointer;

@@ -25,7 +25,7 @@
     </div>
     <div class="login-container">
       <i class="material-icons" id="loginIcon" style="cursor: pointer;">login</i>
-      <button id="logoutButton" style="display: none;">로그아웃</button>
+      <i class="material-icons" id="logoutIcon" style="cursor: pointer; display: none;">logout</i>
     </div>
   </header>
 
@@ -161,6 +161,14 @@
         <input type="password" id="password" placeholder="비밀번호" required>
         <button type="submit">로그인</button>
       </form>
+    </div>
+  </div>
+
+  <!-- 로그아웃 버튼 -->
+  <div id="logoutButtonContainer" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <button id="logoutButton">로그아웃</button>
     </div>
   </div>
 

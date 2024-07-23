@@ -401,6 +401,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const closeLoginModal = document.getElementsByClassName('close')[0];
     const loginForm = document.getElementById('loginForm');
 
+    // 로그아웃 모달 요소
+    const logoutModal = document.getElementById('logoutButtonContainer');
+    const logoutIcon = document.getElementById('logoutIcon');
+    const closeLogoutModal = document.getElementsByClassName('close')[1];
+    const logoutButton = document.getElementById('logoutButton');
+
     // 로그인 아이콘 클릭 이벤트
     loginIcon.addEventListener('click', () => {
         loginModal.style.display = 'block';
@@ -411,10 +417,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loginModal.style.display = 'none';
     });
 
+
     // 모달 외부 클릭 시 닫기
     window.addEventListener('click', (event) => {
         if (event.target == loginModal) {
             loginModal.style.display = 'none';
+        }
+        if (event.target == logoutModal) {
+            logoutModal.style.display = 'none';
         }
     });
 
@@ -436,12 +446,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
         });
     });
 
+    
+    // 로그아웃 아이콘 클릭 이벤트
+    logoutIcon.addEventListener('click', () => {
+        logoutModal.style.display = 'block';
+    });
+
+    // 로그아웃 모달 닫기 이벤트
+    closeLogoutModal.addEventListener('click', () => {
+        logoutModal.style.display = 'none';
+    });
+
     // 로그아웃 버튼 클릭 이벤트
-    document.getElementById('logoutButton').addEventListener('click', () => {
+    logoutButton.addEventListener('click', () => {
         signOut(auth).then(() => {
             console.log("로그아웃 성공");
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('logoutButton').style.display = 'none';
+            logoutModal.style.display = 'none';
+            loginIcon.style.display = 'block';
+            logoutIcon.style.display = 'none';
             clearData();
         });
     });
