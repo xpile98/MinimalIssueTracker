@@ -454,7 +454,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             logoutModal.style.display = 'none';
             loginIcon.style.display = 'block';
             logoutIcon.style.display = 'none';
-            clearData();
         });
     });
 
