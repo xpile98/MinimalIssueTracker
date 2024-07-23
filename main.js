@@ -413,7 +413,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('logoutButton').style.display = 'none';
         }
-        loadData(user);
     });
 
     function loadData(user) {
