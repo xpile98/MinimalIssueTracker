@@ -247,6 +247,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             deleteIssue(issueId);
         }
         confirmModal.style.display = 'none';
+        modal.style.display = 'none';
     });
 
     confirmNo.addEventListener('click', function () {
