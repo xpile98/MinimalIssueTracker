@@ -416,6 +416,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     function loadData(user) {
+        if (!user) {
+            console.error("사용자 정보가 없습니다.");
+            return;
+        }
+
         const q = query(collection(db, "issues"), where("userId", "==", user.uid));
         getDocs(q).then((querySnapshot) => {
             let loadedIssues = [];
