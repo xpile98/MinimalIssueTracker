@@ -395,10 +395,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
         input.click();
     });
 
+    // 로그인 모달 요소
+    const loginModal = document.getElementById('loginModal');
+    const loginIcon = document.getElementById('loginIcon');
+    const closeLoginModal = document.getElementsByClassName('close')[0];
+    const loginForm = document.getElementById('loginForm');
 
+    // 로그인 아이콘 클릭 이벤트
+    loginIcon.addEventListener('click', () => {
+        loginModal.style.display = 'block';
+    });
 
-    // 로그인 및 로그아웃 이벤트 리스너
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
+    // 로그인 모달 닫기 이벤트
+    closeLoginModal.addEventListener('click', () => {
+        loginModal.style.display = 'none';
+    });
+
+    // 모달 외부 클릭 시 닫기
+    window.addEventListener('click', (event) => {
+        if (event.target == loginModal) {
+            loginModal.style.display = 'none';
+        }
+    });
+
+    // 로그인 폼 제출 이벤트
+    loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -406,35 +427,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 console.log("로그인 성공: ", userCredential.user);
+                loginModal.style.display = 'none'; // 로그인 성공 시 모달 닫기
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('logoutButton').style.display = 'block';
             })
             .catch((error) => {
                 console.error('로그인 오류:', error);
-            });
+        });
     });
 
+    // 로그아웃 버튼 클릭 이벤트
     document.getElementById('logoutButton').addEventListener('click', () => {
         signOut(auth).then(() => {
             console.log("로그아웃 성공");
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('logoutButton').style.display = 'none';
             clearData();
-            renderIssues();
         });
     });
 
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            console.log("사용자 로그인 상태: ", user);
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('logoutButton').style.display = 'block';
-        } else {
-            console.log("사용자 로그아웃 상태");
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('logoutButton').style.display = 'none';
-        }
-    });
 
     function loadData(user) {
         if (!user) {
@@ -457,10 +468,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     auth.onAuthStateChanged((user) => {
         if (user) {
+            console.log("사용자 로그인 상태: ", user);
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('logoutButton').style.display = 'block';
             loadData(user);
         } else {
+            console.log("사용자 로그아웃 상태");
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('logoutButton').style.display = 'none';
             issues = JSON.parse(localStorage.getItem('issues')) || [];

@@ -25,13 +25,10 @@
     </div>
     
     <div class="login-container">
-      <form id="loginForm">
-        <input type="email" id="email" placeholder="이메일" required>
-        <input type="password" id="password" placeholder="비밀번호" required>
-        <button type="submit">로그인</button>
-      </form>
+      <i class="material-icons" id="loginIcon" style="cursor: pointer;">login</i>
       <button id="logoutButton" style="display: none;">로그아웃</button>
     </div>
+
   </header>
 
   <div class="container">
@@ -156,6 +153,18 @@
     </div>
   </div>
   
+
+  <!-- 로그인 모달 -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="loginForm">
+        <input type="email" id="email" placeholder="이메일" required>
+        <input type="password" id="password" placeholder="비밀번호" required>
+        <button type="submit">로그인</button>
+      </form>
+    </div>
+  </div>
 
   <script type="module" src="main.js"></script>
   
