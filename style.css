@@ -541,8 +541,8 @@ input:checked+.slider:before {
 
     header {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
+        flex-direction: row;
+        justify-content: space-between; /* 제목과 아이콘을 양 끝으로 배치 */
         align-items: center;
         background-color: #1f1f1f;
         padding: 8px 16px;
@@ -553,6 +553,8 @@ input:checked+.slider:before {
     .search-container {
         width: 100%;
         margin-top: 8px;
+        display: flex;
+        justify-content: center;
     }
 
     #searchInput {
@@ -564,7 +566,7 @@ input:checked+.slider:before {
 
     .main-content {
         margin: 0;
-        padding: 116px 16px 56px;
+        padding: 82px 16px 56px;
         /* 상단 패딩을 136px로 조정하여 헤더와 검색창의 높이를 반영 */
     }
 
@@ -574,6 +576,10 @@ input:checked+.slider:before {
 
     .issue-card {
         margin-bottom: 16px;
+    }
+
+    .login-container {
+        order: 2; /* 로그인 아이콘을 오른쪽 끝으로 이동 */
     }
 }
 
