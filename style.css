@@ -163,6 +163,10 @@ header {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.issue-modal-content {
+    text-align: left; /* 이슈 모달만 왼쪽 정렬 */
+}
+
 .modal-content {
     background-color: #1f1f1f;
     margin: auto; /* 중앙 정렬을 위해 margin을 auto로 설정 */
@@ -176,11 +180,6 @@ header {
     left: 50%;
     transform: translate(-50%, -50%); /* 중앙 정렬을 위해 transform 사용 */
     text-align: center;
-}
-
-
-#issueModal .modal {
-    text-align: left; !important;
 }
 
 .close {
