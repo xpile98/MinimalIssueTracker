@@ -1,6 +1,6 @@
 import { auth, db } from './firebase.js';
 import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-import { doc, collection, addDoc, getDocs, query, where, deleteDoc, updateDoc} from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+import { doc, collection, addDoc, getDocs, query, where, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -362,9 +362,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
             reader.onload = function (event) {
                 try {
                     const uploadedIssues = JSON.parse(event.target.result);
-                    issues = uploadedIssues;
-                    localStorage.setItem('issues', JSON.stringify(issues));
-                    renderIssues();
+                    const user = auth.currentUser;
+
+                    if (user) {
+                        // 로그인 상태에서 Firestore DB에 저장
+                        const batch = db.batch();
+                        uploadedIssues.forEach(issue => {
+                            issue.userId = user.uid; // userId 추가
+                            const issueRef = doc(collection(db, 'issues'));
+                            batch.set(issueRef, issue);
+                        });
+                        batch.commit().then(() => {
+                            console.log("이슈 저장 성공");
+                            issues = uploadedIssues;
+                            renderIssues();
+                        }).catch(error => {
+                            console.error("이슈 저장 오류: ", error);
+                        });
+                    } else {
+                        // 로그아웃 상태에서 로컬 스토리지에 저장
+                        issues = uploadedIssues;
+                        localStorage.setItem('issues', JSON.stringify(issues));
+                        renderIssues();
+                    }
                 } catch (e) {
                     alert('Invalid JSON file');
                 }
@@ -374,7 +394,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         input.click();
     });
 
-    
+
+
     // 로그인 및 로그아웃 이벤트 리스너
     document.getElementById('loginForm').addEventListener('submit', (e) => {
         e.preventDefault();
