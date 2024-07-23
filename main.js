@@ -386,7 +386,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 console.log("로그인 성공: ", userCredential.user);
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('logoutButton').style.display = 'block';
-                loadData(userCredential.user);
             })
             .catch((error) => {
                 console.error('로그인 오류:', error);
