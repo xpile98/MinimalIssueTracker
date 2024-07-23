@@ -438,8 +438,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             .then((userCredential) => {
                 console.log("로그인 성공: ", userCredential.user);
                 loginModal.style.display = 'none'; // 로그인 성공 시 모달 닫기
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('logoutButton').style.display = 'block';
+                loginIcon.style.display = 'none';
+                logoutIcon.style.display = 'block';
             })
             .catch((error) => {
                 console.error('로그인 오류:', error);
