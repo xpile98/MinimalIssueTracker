@@ -491,13 +491,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     auth.onAuthStateChanged((user) => {
         if (user) {
             console.log("사용자 로그인 상태: ", user);
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('logoutButton').style.display = 'block';
+            loginIcon.style.display = 'none';
+            logoutIcon.style.display = 'block';
             loadData(user);
         } else {
             console.log("사용자 로그아웃 상태");
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('logoutButton').style.display = 'none';
+            loginIcon.style.display = 'block';
+            logoutIcon.style.display = 'none';
             issues = JSON.parse(localStorage.getItem('issues')) || [];
             renderIssues();
         }
