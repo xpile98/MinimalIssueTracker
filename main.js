@@ -167,6 +167,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 const issueRef = doc(db, "issues", issue.id);
                 updateDoc(issueRef, issue).then(() => {
                     console.log("이슈 업데이트 성공");
+                    loadData(user);
                 }).catch(error => {
                     console.error("이슈 업데이트 오류: ", error);
                 });
