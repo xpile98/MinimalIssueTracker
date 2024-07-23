@@ -1,6 +1,6 @@
 import { auth, db } from './firebase.js';
 import { signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-import { doc, collection, addDoc, getDocs, query, where, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+import { doc, collection, addDoc, getDocs, query, where, deleteDoc, updateDoc, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                     if (user) {
                         // 로그인 상태에서 Firestore DB에 저장
-                        const batch = db.batch();
+                        const batch = writeBatch(db);
                         uploadedIssues.forEach(issue => {
                             issue.userId = user.uid; // userId 추가
                             const issueRef = doc(collection(db, 'issues'));
