@@ -300,15 +300,51 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 
     function updateProjectList() {
-        const currentProjects = issues.map(issue => issue.project);
         projectList.innerHTML = '<option value="">선택</option>';
-        projects.filter(project => currentProjects.includes(project))
-            .forEach(project => {
-                const option = document.createElement('option');
-                option.value = project;
-                option.textContent = project;
-                projectList.appendChild(option);
+        projects.sort().forEach(project => {
+            const option = document.createElement('option');
+            option.value = project;
+            option.textContent = project;
+            projectList.appendChild(option);
+        });
+
+        populateProjectFilterLinks();
+    }
+
+    function populateProjectFilterLinks() {
+        const sidebarMenu = document.querySelector('.sidebar-menu');
+
+        // 기존 프로젝트 필터 영역 제거
+        document.querySelectorAll('.project-filter').forEach(e => e.remove());
+
+        const projectHeader = document.createElement('div');
+        projectHeader.textContent = '프로젝트별 보기';
+        projectHeader.style.padding = '8px 24px';
+        projectHeader.style.fontWeight = 'bold';
+        projectHeader.style.color = '#ccc';
+        projectHeader.className = 'project-filter';
+        sidebarMenu.appendChild(projectHeader);
+
+        // 🩶 스크롤 가능한 컨테이너 생성
+        const projectFilterContainer = document.createElement('div');
+        projectFilterContainer.id = 'projectFilterContainer';
+        projectFilterContainer.className = 'project-filter';
+        sidebarMenu.appendChild(projectFilterContainer);
+
+        projects.forEach(project => {
+            const link = document.createElement('a');
+            link.href = '#';
+            link.className = 'sidebar-item project-filter';
+            link.innerHTML = `<i class="material-icons">folder</i> <span>${project}</span>`;
+
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filtered = issues.filter(issue => issue.project === project);
+                renderIssues(filtered);
             });
+
+            projectFilterContainer.appendChild(link);
+        });
     }
 
     updateProjectList();
@@ -417,7 +453,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         loginModal.style.display = 'none';
     });
 
-    
+
     // 로그아웃 아이콘 클릭 이벤트
     logoutIcon.addEventListener('click', () => {
         logoutModal.style.display = 'block';
@@ -443,7 +479,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             })
             .catch((error) => {
                 console.error('로그인 오류:', error);
-        });
+            });
     });
 
 
@@ -478,11 +514,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
         const q = query(collection(db, "issues"), where("userId", "==", user.uid));
         getDocs(q).then((querySnapshot) => {
             let loadedIssues = [];
+            let loadedProjectsSet = new Set();
+
             querySnapshot.forEach((doc) => {
-                loadedIssues.push({ ...doc.data(), id: doc.id });
+                const issueData = { ...doc.data(), id: doc.id };
+                loadedIssues.push(issueData);
+                if (issueData.project && issueData.project.trim() !== "") {
+                    loadedProjectsSet.add(issueData.project.trim());
+                }
             });
+
             issues = loadedIssues;
+            projects = Array.from(loadedProjectsSet).sort();
+            localStorage.setItem('issues', JSON.stringify(issues));
+            localStorage.setItem('projects', JSON.stringify(projects));
+
             renderIssues();
+            updateProjectList(); // 콤보박스 및 사이드바 자동 갱신
         }).catch(error => {
             console.error("데이터 로드 오류: ", error);
         });
