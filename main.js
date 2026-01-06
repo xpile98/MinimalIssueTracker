@@ -139,12 +139,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // 반응형 체크
     function checkResponsive() {
+        const mobileSearchButton = document.getElementById('mobileSearchButton');
         if (window.innerWidth <= 768) {
             menuButton.style.display = 'block';
             sidebar.style.display = 'none';
+            if (mobileSearchButton) {
+                mobileSearchButton.style.display = 'flex';
+            }
         } else {
             menuButton.style.display = 'none';
             sidebar.style.display = 'block';
+            if (mobileSearchButton) {
+                mobileSearchButton.style.display = 'none';
+            }
         }
     }
     window.addEventListener('resize', checkResponsive);
@@ -358,6 +365,88 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     searchInput.addEventListener('input', performSearch);
 
+    // 모바일 검색 기능
+    const mobileSearchButton = document.getElementById('mobileSearchButton');
+    const mobileSearchModal = document.getElementById('mobileSearchModal');
+    const mobileSearchInput = document.getElementById('mobileSearchInput');
+    const mobileSearchClose = document.getElementById('mobileSearchClose');
+    const mobileIssueGrid = document.getElementById('mobileIssueGrid');
+
+    if (mobileSearchButton) {
+        mobileSearchButton.addEventListener('click', () => {
+            mobileSearchModal.classList.add('active');
+            mobileSearchInput.focus();
+            // 현재 이슈를 모바일 검색 그리드에 표시
+            renderMobileSearch();
+        });
+    }
+
+    if (mobileSearchClose) {
+        mobileSearchClose.addEventListener('click', () => {
+            mobileSearchModal.classList.remove('active');
+            mobileSearchInput.value = '';
+        });
+    }
+
+    if (mobileSearchInput) {
+        mobileSearchInput.addEventListener('input', () => {
+            renderMobileSearch();
+        });
+    }
+
+    function renderMobileSearch() {
+        const searchTerm = mobileSearchInput.value.toLowerCase();
+        const filteredIssues = issues.filter(issue =>
+            issue.project.toLowerCase().includes(searchTerm) ||
+            issue.issue.toLowerCase().includes(searchTerm) ||
+            (issue.method && issue.method.toLowerCase().includes(searchTerm)) ||
+            issue.date.includes(searchTerm)
+        );
+
+        mobileIssueGrid.innerHTML = '';
+
+        if (filteredIssues.length === 0) {
+            const emptyMessage = searchTerm
+                ? `"${searchTerm}"에 대한 검색 결과가 없습니다.`
+                : '등록된 이슈가 없습니다.';
+            mobileIssueGrid.innerHTML = `<div class="empty-state">${emptyMessage}</div>`;
+            return;
+        }
+
+        filteredIssues.forEach((issue) => {
+            const truncatedMethod = getHighlightedSnippet(issue.method, searchTerm, 100);
+            const statusClass = issue.status === 'unsolved' ? 'status-unsolved' : 'status-solved';
+            const issueCard = document.createElement('div');
+            issueCard.className = 'issue-card';
+            issueCard.innerHTML = `
+                <div class="issue-card-content">
+                    <div class="issue-header">
+                        <h3>${highlightText(issue.project, searchTerm)}</h3>
+                        <span class="status-indicator ${statusClass}" data-issue-id="${issue.id}" title="클릭하여 상태 변경"></span>
+                    </div>
+                    <p><strong>이슈:</strong> ${highlightText(issue.issue, searchTerm)}</p>
+                    <p><strong>방법:</strong> ${highlightText(truncatedMethod, searchTerm)}</p>
+                    <div class="issue-date">${highlightText(issue.date, searchTerm)}</div>
+                </div>
+            `;
+
+            issueCard.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('status-indicator')) {
+                    mobileSearchModal.classList.remove('active');
+                    openModal(issue);
+                }
+            });
+
+            const statusIndicator = issueCard.querySelector('.status-indicator');
+            statusIndicator.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleIssueStatus(issue);
+            });
+
+            mobileIssueGrid.appendChild(issueCard);
+        });
+    }
+
     // 사이드바 필터링
     allIssuesLink.addEventListener('click', (e) => {
         e.preventDefault();
@@ -399,10 +488,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         const projectHeader = document.createElement('div');
         projectHeader.textContent = '프로젝트별 보기';
-        projectHeader.style.padding = '8px 24px';
-        projectHeader.style.fontWeight = 'bold';
-        projectHeader.style.color = '#ccc';
-        projectHeader.className = 'project-filter';
+        projectHeader.className = 'project-filter project-filter-header';
         sidebarMenu.appendChild(projectHeader);
 
         const projectFilterContainer = document.createElement('div');
@@ -413,13 +499,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
         projects.forEach(project => {
             const link = document.createElement('a');
             link.href = '#';
-            link.className = 'sidebar-item project-filter';
+            link.className = 'sidebar-item';
             link.innerHTML = `<i class="material-icons">folder</i> <span>${project}</span>`;
 
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const filtered = issues.filter(issue => issue.project === project);
                 renderIssues(filtered, currentSearchTerm);
+                if (window.innerWidth <= 768) {
+                    sidebar.style.display = 'none';
+                }
             });
 
             projectFilterContainer.appendChild(link);
