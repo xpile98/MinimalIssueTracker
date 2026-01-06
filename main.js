@@ -82,14 +82,29 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 <div class="issue-card-content">
                     <div class="issue-header">
                         <h3>${highlightText(issue.project, searchTerm)}</h3>
-                        <span class="status-indicator ${statusClass}"></span>
+                        <span class="status-indicator ${statusClass}" data-issue-id="${issue.id}" title="클릭하여 상태 변경"></span>
                     </div>
                     <p><strong>이슈:</strong> ${highlightText(issue.issue, searchTerm)}</p>
                     <p><strong>방법:</strong> ${highlightText(truncatedMethod, searchTerm)}</p>
                     <div class="issue-date">${highlightText(issue.date, searchTerm)}</div>
                 </div>
             `;
-            issueCard.addEventListener('click', () => openModal(issue));
+
+            // 카드 클릭 이벤트
+            issueCard.addEventListener('click', (e) => {
+                // 상태 표시등을 클릭한 경우가 아니면 모달 열기
+                if (!e.target.classList.contains('status-indicator')) {
+                    openModal(issue);
+                }
+            });
+
+            // 상태 표시등 클릭 이벤트
+            const statusIndicator = issueCard.querySelector('.status-indicator');
+            statusIndicator.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleIssueStatus(issue);
+            });
+
             issueGrid.appendChild(issueCard);
         });
         updateIssueCounts();
@@ -205,6 +220,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }
         });
         return Array.from(projectSet).sort();
+    }
+
+    // 이슈 상태 토글 함수
+    function toggleIssueStatus(issue) {
+        const newStatus = issue.status === 'solved' ? 'unsolved' : 'solved';
+        const statusText = newStatus === 'solved' ? '해결됨' : '미해결';
+
+        if (confirm(`이슈 상태를 "${statusText}"(으)로 변경하시겠습니까?`)) {
+            issue.status = newStatus;
+            saveIssue(issue);
+        }
     }
 
     // 이슈 저장
